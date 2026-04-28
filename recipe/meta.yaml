@@ -1,0 +1,50 @@
+{% set name = "azure-mgmt-hdinsight" %}
+{% set version = "9.1.0b2" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+  sha256: 5b0d1335e2c1a73bc0891abbb178dc006309756d1e0bc5766c1832b9fb442717
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<39]
+
+requirements:
+  host:
+    - python
+    - setuptools >=77.0.3
+    - wheel
+    - pip
+  run:
+    - python
+    - msrest >=0.7.1
+    - azure-mgmt-core >=1.6.0
+    - typing-extensions >=4.6.0
+
+test:
+  imports:
+    - azure.mgmt.hdinsight
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/Azure/azure-sdk-for-python
+  summary: Microsoft Azure Hdinsight Management Client Library for Python
+  license: MIT
+  license_file: LICENSE
+  license_family: MIT
+  description: |
+    This is the Microsoft Azure Hdinsight Management Client Library.
+  doc_url: https://github.com/Azure/azure-sdk-for-python
+  dev_url: https://github.com/Azure/azure-sdk-for-python
+
+extra:
+  recipe-maintainers:
+    - and300u250w
